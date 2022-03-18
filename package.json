@@ -1,0 +1,46 @@
+{
+  "name": "ProductDeliveryApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.16.1",
+    "@react-native-community/netinfo": "^6.2.1",
+    "@react-navigation/native": "^5.9.8",
+    "@react-navigation/stack": "^5.14.9",
+    "apisauce": "^2.1.5",
+    "formik": "^2.2.9",
+    "react": "17.0.2",
+    "react-native": "0.67.4",
+    "react-native-bluetooth-escpos-printer": "0.0.5",
+    "react-native-draganddrop-board": "^1.0.4",
+    "react-native-elements": "^3.4.2",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-safe-area-context": "^3.4.0",
+    "react-native-screens": "^3.11.1",
+    "react-native-signature-canvas": "^4.3.0",
+    "react-native-star-prnt": "^1.1.0",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-webview": "^11.17.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.7",
+    "@babel/runtime": "^7.17.7",
+    "@react-native-community/eslint-config": "^3.0.1",
+    "babel-jest": "^27.5.1",
+    "eslint": "^8.11.0",
+    "jest": "^27.5.1",
+    "metro-react-native-babel-preset": "^0.69.1",
+    "react-test-renderer": "17.0.2"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
