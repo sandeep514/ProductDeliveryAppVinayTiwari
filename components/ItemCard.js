@@ -234,7 +234,7 @@
 								</View>
 								<View style={ (win.width > 550) ? {width: '60%'} : {width: '60%'} }>
 
-									<TextInput keyboardType="numeric" defaultValue={ (selectedLoadArrayWithoutloadname != undefined && selectedLoadArrayWithoutloadname[cardId] != undefined)? (selectedLoadArrayWithoutloadname[cardId].value).toString() : '0' } key={cardId} placeholder="Qty" style={{textAlign: 'center',color: '#000'}} onChange={(value) => { (value.nativeEvent.text != '') ? DirectUpdateQTY(loadName , cardId , value.nativeEvent.text) : '' }} />
+									<TextInput keyboardType="default" defaultValue={ (selectedLoadArrayWithoutloadname != undefined && selectedLoadArrayWithoutloadname[cardId] != undefined)? (selectedLoadArrayWithoutloadname[cardId].value).toString() : '0' } key={cardId} placeholder="Qty" style={{textAlign: 'center',color: '#000'}} onChange={(value) => { (value.nativeEvent.text != '') ? DirectUpdateQTY(loadName , cardId , value.nativeEvent.text) : '' }} />
 								</View>
 								<View  style={ (win.width > 550) ? {width: '20%'} : {width: '20%'} }>
 									<Pressable onPress={ () => { addQtyItem( loadName , cardId ) } } style={{backgroundColor: Colors.primary,padding:7, height: 50}}>

@@ -273,14 +273,14 @@ import ItemComponent from './component/inputcomponent';
                         onPress={event => listClicked(l)}>
                         <ListItem
                           	containerStyle={
-								active == l.id
-									? styles.active
-									: l.delivery_status == 0
-									? {backgroundColor: '#ff6363'}
-									: l.delivery_status == 1
-									? {backgroundColor: 'white'}
-									: {backgroundColor: 'blue'}
-							}
+                            active == l.id
+                              ? styles.active
+                              : l.delivery_status == 0
+                              ? {backgroundColor: '#ff6363'}
+                              : l.delivery_status == 1
+                              ? {backgroundColor: 'white'}
+                              : {backgroundColor: 'blue'}
+                          }
 							key={i}
 							bottomDivider>
 								{/* <View style={{padding: 0 , margin: 0,width: 60,marginTop: 15,height: 60}}>
