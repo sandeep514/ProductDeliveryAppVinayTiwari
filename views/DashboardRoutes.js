@@ -68,11 +68,13 @@ import ItemComponent from './component/inputcomponent';
             //             })
             // })
             
-			return function cleanup() {
-				AsyncStorage.removeItem('selectedInvoiceId') , AsyncStorage.removeItem('newSortedArray');
-			};
+          return function cleanup() {
+			  console.log("knk");
+            AsyncStorage.removeItem('selectedInvoiceId') , AsyncStorage.removeItem('newSortedArray');
+          };
 								
-            // return ( AsryncStorage.removeItem('selectedInvoiceId') , AsyncStorage.removeItem('newSortedArray') )
+            // return () => { AsyncStorage.removeItem('selectedInvoiceId') , AsyncStorage.removeItem('newSortedArray') }
+            return () => { AsyncStorage.removeItem('newSortedArray') }
         } , [])
 
 		function gotoCart(invoiceNo, selectedBuyer) {
@@ -166,6 +168,7 @@ import ItemComponent from './component/inputcomponent';
 				setActive(listData.id);
 				AsyncStorage.setItem( 'selectedBuyerRouteId', (listData.id).toString());
 				AsyncStorage.setItem( 'selectedBuyerRouteName', listData.name);	
+				
 			}
             // setcoordinates([{} ,{    latitude: parseFloat(listData.latitude),
             //                         longitude: parseFloat(listData.longitude),
