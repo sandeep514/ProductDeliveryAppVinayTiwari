@@ -1022,6 +1022,8 @@ export default function PDFmanager({navigation , text, onOK}) {
                     setSaveOrderActivIndictor(false)
                     // AsyncStorage.setItem('orderSaveReponce', JSON.stringify(res.data.data));
                     // AsyncStorage.setItem('orderSaveBuyer', JSON.stringify(res.data.buyer));
+                    AsyncStorage.removeItem('selectedInvoiceId');                            
+
                     navigation.push('Dashboard');
 
                     alert('Order has been placed successfully');
