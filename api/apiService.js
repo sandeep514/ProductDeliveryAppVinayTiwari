@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
+	SegmentedControlIOSComponent,
 	ToastAndroid
 } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
@@ -440,6 +441,8 @@ export const SaveOrder = (postedData) => {
 
 //get Before order details
 export const BeforeOrderDetails = (postedData) => {
+	console.log(postedData);
+	console.log("------");
 	return new Promise((resolve, reject) => {
 		CheckConnectivity().then((res) => {
 

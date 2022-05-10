@@ -485,7 +485,7 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                 <Text style={{fontWeight: 'bold',width: 100}}>Customer</Text>
                                 <Text style={{fontWeight: 'bold'}}></Text>
                                 <Text style={{fontWeight: 'bold'}}></Text>
-                                <Text style={{fontWeight: 'bold'}}>Date: { (savedOrderResonce != undefined) ? savedOrderResonce[0]['ddate'] : ''   }</Text>
+                                <Text style={{fontWeight: 'bold'}}>Date: { (savedOrderResonce != undefined) ? savedOrderResonce[0]['idate'] : ''   }</Text>
                             </View>
                             <View style={{ flex: 0.2, flexDirection:'row',paddingHorizontal: 20,marginTop: 20}}>
                                 <Text style={{width: 100}}>Name: </Text>

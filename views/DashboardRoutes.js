@@ -69,7 +69,6 @@ import ItemComponent from './component/inputcomponent';
             // })
             
           return function cleanup() {
-			  console.log("knk");
             AsyncStorage.removeItem('selectedInvoiceId') , AsyncStorage.removeItem('newSortedArray');
           };
 								

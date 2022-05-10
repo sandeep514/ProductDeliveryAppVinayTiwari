@@ -49,10 +49,9 @@ export default function ItemsScreenWithQty({navigation , route}) {
 
 	useEffect(() => {
 		AsyncStorage.getItem('selectedInvoiceId').then((res) => {
-			console.log(res);
-			console.log("+++++");
+
 		})
-		console.log(",jnk, ,");
+
 		// getPendingOrderResponce();
 	} , [])
 

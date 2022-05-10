@@ -57,11 +57,7 @@ export default function PDFmanager({navigation , text, onOK}) {
             
             setIsLoaderActive(true)
             BeforeOrderDetails(data).then( (result) => {
-                console.log(result);
-                console.log('joijni');
                 AsyncStorage.getItem('selectedInvoiceId').then((selectedInvoice) => {
-                    console.log(selectedInvoice);
-                    console.log('----');
 
                     if( selectedInvoice != null ){
                         setInvoiceNumber(selectedInvoice);
@@ -1043,9 +1039,6 @@ export default function PDFmanager({navigation , text, onOK}) {
                             myData.push({'remarks' : remarks});
                             myData.push({'invoice_no' : invoiceNumber});
                             myData.push({'signature' : base64});
-                            console.log('+++++++++++');
-                            console.log(myData)
-                            console.log('+++++++++++');
                             
                             SaveOrder(JSON.stringify(myData)).then((res) => {
                                 setSaveOrderActivIndictor(false)
