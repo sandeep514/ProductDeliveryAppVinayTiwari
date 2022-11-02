@@ -82,7 +82,9 @@ import ItemComponent from './component/inputcomponent';
 
         	setActInd(false)
 				AsyncStorage.setItem('cartItems' , JSON.stringify(data.data.data));
-	
+				console.log('0-----')
+				console.log(invoiceNo)
+				console.log('0-----')
 				AsyncStorage.setItem('selectedInvoiceId' , invoiceNo);
 				AsyncStorage.setItem('selectedBuyer' , (selectedBuyer).toString());
 				let myRecords = {};

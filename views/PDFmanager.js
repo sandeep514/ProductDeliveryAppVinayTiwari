@@ -58,7 +58,7 @@ export default function PDFmanager({navigation , text, onOK}) {
             setIsLoaderActive(true)
             BeforeOrderDetails(data).then( (result) => {
                 AsyncStorage.getItem('selectedInvoiceId').then((selectedInvoice) => {
-
+                    console.log(selectedInvoice)
                     if( selectedInvoice != null ){
                         setInvoiceNumber(selectedInvoice);
                     }else{
@@ -990,6 +990,8 @@ export default function PDFmanager({navigation , text, onOK}) {
     }
 
     function goToDashboard (){
+        
+
         AsyncStorage.removeItem('selectedLoadedItemsByQty')
         AsyncStorage.removeItem('VATStatus');   
         AsyncStorage.removeItem('UndeliveredItemsInCart');
@@ -1000,6 +1002,8 @@ export default function PDFmanager({navigation , text, onOK}) {
         AsyncStorage.removeItem('currentVATstatus');
         AsyncStorage.removeItem('orderSaveReponce');
         AsyncStorage.removeItem('orderSaveBuyer');
+        setSaveOrderActivIndictor(false)
+
         navigation.push('DashboardRoutes')
     }
 
@@ -1016,12 +1020,13 @@ export default function PDFmanager({navigation , text, onOK}) {
                 
                 SaveOrder(JSON.stringify(myData)).then((res) => {
                     setSaveOrderActivIndictor(false)
+                    setModalVisible(true)
+
                     // AsyncStorage.setItem('orderSaveReponce', JSON.stringify(res.data.data));
                     // AsyncStorage.setItem('orderSaveBuyer', JSON.stringify(res.data.buyer));
-                    navigation.push('Dashboard');
+                    // navigation.push('Dashboard');
 
-                    alert('Order has been placed successfully');
-                    setModalVisible(true)
+                    // alert('Order has been placed successfully');
                 })
             })
         }else{
@@ -1716,13 +1721,13 @@ export default function PDFmanager({navigation , text, onOK}) {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                setModalVisible(!modalVisible);
+                    setModalVisible(!modalVisible);
                 }}
             >
                 <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>Order places successfully.</Text>
-                    <Pressable style={[styles.button, styles.buttonClose]} onPress={() => {setModalVisible(false); goToDashboard()}}>
+                    <Pressable style={[styles.button, styles.buttonClose]} onPress={() => {setSaveOrderActivIndictor(true) ; setModalVisible(false); goToDashboard() }}>
                         <Text style={styles.textStyle}>Continue</Text>
                     </Pressable>
                 </View>

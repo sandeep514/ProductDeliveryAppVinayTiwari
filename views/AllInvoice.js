@@ -59,6 +59,7 @@ const [ bluetoothName ,setBluetoothName ] = useState();
 const [ hasVatProduct ,setHasVatProducts ] = useState(false);
 const [ hasNonVatProducts ,setHasNonVatProducts ] = useState(false);
 const [refreshPage, setRefreshPage] = useState("");
+const [searchFrom, setSearchFrom] = useState();
 
 const ref_input2 = useRef();
 var paired = [];
@@ -77,6 +78,7 @@ function getListInvoice(){
             let driverId = value;
             getListInvoices( driverId, selectedVehNo ).then((data) => {
                 setLoadedData(false);
+                setUpdatedData(data.data.data)
                 setSelectedLoadCount(data.data.data)
                 setUndeliveredItems(data.data.undeliverdItems);
             });
@@ -143,10 +145,10 @@ printReceipt = (data) => {
 
                                             getSaleItemByInv(invoiceNo).then((res) => {
                                                 for(let i = 0 ; i < res.length ; i++){
-                                                    if( res[i]['sale_item_rel'].itemcategory == 'EGGS' || res[i]['sale_item_rel'].itemcategory == 3 || res[i]['sale_item_rel'].itemcategory == '3' || res[i].has_vat ){
+                                                    if( res[i]['sale_item_rel'].itemcategory == 'EGGS' || res[i]['sale_item_rel'].itemcategory == 3 || res[i]['sale_item_rel'].itemcategory == '3' || res[i].has_vat == "1" ){
                                                         setHasVatProducts(true)
                                                     }
-                                                    if( res[i]['sale_item_rel'].itemcategory != 'EGGS' && !res[i].has_vat || res[i]['sale_item_rel'].itemcategory == 3 || res[i]['sale_item_rel'].itemcategory == '3' && !res[i].has_vat ){
+                                                    if( res[i]['sale_item_rel'].itemcategory != 'EGGS' && !res[i].has_vat || res[i]['sale_item_rel'].itemcategory == 3 || res[i]['sale_item_rel'].itemcategory == '3' && res[i].has_vat == "0" ){
                                                         setHasNonVatProducts(true)
                                                     }                                                    
                                                 }
@@ -530,24 +532,50 @@ async function print() {
 }
 
 const filterData = (SearchedData) => {
-
+    console.log(parseInt(SearchedData));
     var matched_terms = [];
     var search_term = SearchedData;
     search_term  = search_term.toLowerCase();
-    for(var i = 0 ; i < selectedLoadCount.length ; i++){
-        if( selectedLoadCount[i].length > 0 ){
-            if( 'buyer_rel' in selectedLoadCount[i][0] ){
-                if( 'name' in selectedLoadCount[i][0].buyer_rel ){
-                    
-                    if(selectedLoadCount[i][0].buyer_rel.name.toLowerCase().indexOf(search_term) !== -1 ){
-                        matched_terms.push( selectedLoadCount[i] ); 
-                    }
-                    // SetData([matched_terms])
-                    setSelectedLoadCount(matched_terms);
-                }    
+   
+    if( !isNaN(parseInt(SearchedData))  ){
+        for(var i = 0 ; i < updatedData.length ; i++){
+            if( updatedData[i].length > 0 ){
+                if( 'buyer_rel' in updatedData[i][0] ){
+                    if( 'invoice_no' in updatedData[i][0] ){
+                        
+                        if(updatedData[i][0].invoice_no.indexOf(search_term) !== -1 ){
+                            matched_terms.push( updatedData[i] ); 
+                        }
+                        // SetData([matched_terms])
+                        setSelectedLoadCount(matched_terms);
+                    }    
+                }
             }
         }
+    }else{
+        console.log("jnk");
+        for(var i = 0 ; i < updatedData.length ; i++){
+            if( updatedData[i].length > 0 ){
+                if( 'buyer_rel' in updatedData[i][0] ){
+                    if( 'name' in updatedData[i][0].buyer_rel ){
+                        
+                        if(updatedData[i][0].buyer_rel.name.toLowerCase().indexOf(search_term) !== -1 ){
+                            matched_terms.push( updatedData[i] ); 
+                        }
+                        // SetData([matched_terms])
+                        setSelectedLoadCount(matched_terms);
+                    }    
+                }
+            }
+        }
+    }
 
+   
+
+    if( SearchedData.length > 0 ){
+        
+    }else{
+        getListInvoice()
     }
 }
 
@@ -836,7 +864,7 @@ printDesign = async (data , invoiceNo , buyerName, buyerAddress , buyerPhone) =>
         );
 
         for(let i = 0 ; i < data.length ; i++){
-            if( data[i]['sale_item_rel'].itemcategory != 'EGGS' && !data[i].has_vat  ){
+            if( data[i]['sale_item_rel'].itemcategory != 'EGGS' && data[i].has_vat == '0'  ){
                 let sitem = data[i]['sale_item_rel']['name'];
                 let salePrice = data[i]['sale_price'];
                 let qty = data[i]['qty'];
@@ -911,10 +939,16 @@ printDesign = async (data , invoiceNo , buyerName, buyerAddress , buyerPhone) =>
 }
 
 function searchBuyer(text){
-    searchBuyerByInvoiceNumber(text).then((res) => {
+    setSearchFrom(text)
+    // searchFrom();
+}
+
+function searchData(){
+    searchBuyerByInvoiceNumber(searchFrom).then((res) => {
         setSelectedLoadCount(res.data.data);
     });
 }
+
 
 function ViewPrintableReciept(data){
     navigation.navigate('ViewPDF' , { invoiceNo : data[0].invoice_no})
@@ -937,7 +971,9 @@ return (
                     :
                         <View></View>
                     }
-                    <TextInput placeholder="Search Buyer By Invoice no" placeholderTextColor="lightgrey" style={styles.textInput} onChange={(value) => { searchBuyer(value.nativeEvent.text) } } />
+
+                            <TextInput placeholder="Search Buyer By Invoice no" placeholderTextColor="lightgrey" style={styles.textInput} onChange={(value) => { filterData(value.nativeEvent.text) } } />
+
                     {(!loadedData)?
                         <FlatList
                             contentContainerStyle={{justifyContent: 'space-between'}}

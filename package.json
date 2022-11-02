@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.16.1",
-    "@react-native-community/netinfo": "^6.2.1",
+    "@react-native-community/netinfo": "^9.3.6",
     "@react-navigation/native": "^5.9.8",
     "@react-navigation/stack": "^5.14.9",
     "apisauce": "^2.1.5",
@@ -37,6 +37,7 @@
     "babel-jest": "^27.5.1",
     "eslint": "^8.11.0",
     "jest": "^27.5.1",
+    "jetifier": "^2.0.0",
     "metro-react-native-babel-preset": "^0.69.1",
     "react-test-renderer": "17.0.2"
   },

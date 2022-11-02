@@ -42,6 +42,7 @@ export const checkLogin = (postedData) => {
 					username: postedData.username,
 					password: postedData.password
 				}).then((response) => {
+					console.log(response)
 					if (response.data.status == true) {
 						resolve(response);
 					} else {
@@ -449,6 +450,7 @@ export const BeforeOrderDetails = (postedData) => {
 			apiClient.post('order-preview', {
 				data: postedData
 			}).then((response) => {
+				console.log(response)
 				if (response.data.status == true) {
 					resolve(response);
 				} else {
@@ -482,6 +484,7 @@ export const getSaleItemByInvoice = (invoiceNo) => {
 
 };
 
+
 //Save Order
 export const searchBuyerByInvoiceNumber = (invoiceNo) => {
 	return new Promise((resolve, reject) => {
@@ -491,6 +494,7 @@ export const searchBuyerByInvoiceNumber = (invoiceNo) => {
 				apiClient.post('find-sale-item-like-invoice', {
 					invoiceNumber: invoiceNo
 				}).then((response) => {
+					console.log(response);
 					if (response.data.status == true) {
 						resolve(response);
 					} else {
@@ -500,8 +504,9 @@ export const searchBuyerByInvoiceNumber = (invoiceNo) => {
 			}
 		})
 	});
-
 };
+
+
 
 export const saveSortedPriority = (sortedArray, driverId, routeId) => {
 	return new Promise((resolve, reject) => {
@@ -579,6 +584,7 @@ export const getItemRequirement = () => {
 };
 
 export const printing = (data, invoiceNo, buyerName, buyerAddress, buyerPhone, undeliveredItem, hasVatProduct, hasNonVatProducts) => {
+
 	let commandsArray = [];
 
 	let totalAmount = 0;
@@ -743,6 +749,7 @@ export const printing = (data, invoiceNo, buyerName, buyerAddress, buyerPhone, u
 				let qty = data[i]['qty'];
 				let vat = 0;
 				let amount = 0;
+				
 				if (data[i]['sale_item_rel'].itemcategory != 'EGGS' && data[i]['sale_item_rel'].itemcategory != 3 && data[i]['sale_item_rel'].itemcategory != '3') {
 					vat = ((((((data[i]['sale_price'] * data[i]['qty']) * 1.20) - (data[i]['sale_price'] * data[i]['qty'])))).toFixed(2)).toString();
 
@@ -958,7 +965,7 @@ export const printing = (data, invoiceNo, buyerName, buyerAddress, buyerPhone, u
 		});
 
 		for (let i = 0; i < data.length; i++) {
-			if (data[i]['sale_item_rel'].itemcategory != 'EGGS' && data[i]['sale_item_rel'].itemcategory != 3 && data[i]['sale_item_rel'].itemcategory != '3' && !data[i]['has_vat']) {
+			if (data[i]['sale_item_rel'].itemcategory != 'EGGS' && data[i]['sale_item_rel'].itemcategory != 3 && data[i]['sale_item_rel'].itemcategory != '3' && data[i]['has_vat'] == '0') {
 				let sitem = data[i]['sale_item_rel']['name'];
 				let salePrice = data[i]['sale_price'];
 				let qty = data[i]['qty'];

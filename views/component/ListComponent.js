@@ -25,46 +25,48 @@ import { StarPRNT } from 'react-native-star-prnt';
 
 const win = Dimensions.get('window');
 export default function ListComponent({item , ViewRecieptState , PrintReceiptState}) {
-const [printingIndicator , setPrintingIndicator] = useState(false);
+    const [printingIndicator , setPrintingIndicator] = useState(false);
 
-useEffect(() => {
-} , []);
+    useEffect(() => {
+        // console.log(item[0].id)
+    } , []);
 
-const ViewReciept = (item) => {
-    ViewRecieptState(item)
-}
-const printRecpt = (item) => {
-    PrintReceiptState(item)
-}
+    const ViewReciept = (item) => {
+        ViewRecieptState(item)
+    }
+    const printRecpt = (item) => {
+        PrintReceiptState(item)
+    }
 
-return (
-    <TouchableHighlight key={item[0].id} >
-        <ListItem bottomDivider key={item[0].id}>
-            <ListItem.Content key={item[0].id}>
-                <ListItem.Title  style={{fontSize: 14}} allowFontScaling={false}>
-                    {item[0]["buyer_rel"].name}
-                </ListItem.Title>
-                <ListItem.Subtitle allowFontScaling={false} >
-                    <Text style={{fontSize: 10}}>{item[0].invoice_no}   ( {item[0].idate} )</Text>
-                </ListItem.Subtitle>
-            </ListItem.Content>
-            <View>
-                <Pressable style={{backgroundColor: 'lightgreen',paddingHorizontal: 20,paddingVertical: 10}} 
-                    onPress={() => { ViewReciept(item) }} 
-                >
-                    <Text style={{color: 'white'}}>View</Text>
-                </Pressable>
-            </View>
-            <View>
-                <Pressable style={{backgroundColor: Colors.primary,paddingHorizontal: 20,paddingVertical: 10}} 
-                    onPress={() => { setPrintingIndicator(true); printRecpt(item) }} 
-                >
-                    <Text style={{color: 'white'}}>Print</Text>
-                </Pressable>
-            </View>
-        </ListItem>
-    </TouchableHighlight>
-);
+    return (
+        <TouchableHighlight key={item[0].id} >
+            <ListItem bottomDivider key={item[0].id}>
+                <ListItem.Content key={item[0].id}>
+                    <ListItem.Title  style={{fontSize: 14}} allowFontScaling={false}>
+                        {item[0]["buyer_rel"].name}
+                    </ListItem.Title>
+                    <ListItem.Subtitle allowFontScaling={false} >
+                        <Text style={{fontSize: 10}}>{item[0].invoice_no} ( {item[0].idate} )</Text>
+                    </ListItem.Subtitle>
+                </ListItem.Content>
+                <View>
+                    <Pressable style={{backgroundColor: 'lightgreen',paddingHorizontal: 20,paddingVertical: 10}} 
+                        onPress={() => { ViewReciept(item) }} 
+                    >
+                        <Text style={{color: 'white'}}>View</Text>
+                    </Pressable>
+                </View>
+                <View>
+                    <Pressable style={{backgroundColor: Colors.primary,paddingHorizontal: 20,paddingVertical: 10}} 
+                        onPress={() => { setPrintingIndicator(true); printRecpt(item) }} 
+                    >
+                        <Text style={{color: 'white'}}>Print</Text>
+                    </Pressable>
+                </View>
+            </ListItem>
+        </TouchableHighlight>
+    );
+ 
 }
 
 const styles = StyleSheet.create({

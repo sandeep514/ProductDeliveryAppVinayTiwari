@@ -58,7 +58,8 @@ export default function ViewPDF({navigation , route , text, onOK}) {
         getSaleItemByInv(route.params.invoiceNo).then( (result) => {    
             setSavedBuyerData(result.data[0].buyer_rel);
             let parsedData = result.data;
-            // console.log(parsedData)
+            console.log(parsedData)
+
             setSavedOrderResponce(parsedData);
             setundeliveredItems(result.undeliverdItems)
             for(let i = 0 ; i < parsedData.length ; i++){
@@ -145,14 +146,14 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                     if(res != null && res != undefined){
                         getSaleItemByInv(invoiceNo).then((res) => {
                             for(let i = 0 ; i < res.length ; i++){
-                                if( res[i]['sale_item_rel'].itemcategory == 'EGGS' || res[i].has_vat ){
-                                    setHasVatProducts(true)
+                                if( res[i]['sale_item_rel'].itemcategory == 'EGGS' || res[i].has_vat == '0' ){
+                                    setHasVatProducts(true);
                                 }
-                                if( res[i]['sale_item_rel'].itemcategory != 'EGGS' && !res[i].has_vat ){
-                                    setHasNonVatProducts(true)
+                                if( res[i]['sale_item_rel'].itemcategory != 'EGGS' && !res[i].has_vat == '0' ){
+                                    setHasNonVatProducts(true);
                                 }                                                    
                             }
-
+                            console.log(res.data);
                             // printDesignStarPrinter( Object.values(res) , invoiceNo , buyerName ,buyerAddress , buyerPhone );
                             printing(Object.values(res.data) , invoiceNo , buyerName, buyerAddress , buyerPhone , undeliveredItems ,hasVatProducts,hasNonVatProducts);
                             setTimeout(() => {
@@ -180,10 +181,10 @@ export default function ViewPDF({navigation , route , text, onOK}) {
     
                                                 getSaleItemByInv(invoiceNo).then((res) => {
                                                     for(let i = 0 ; i < res.length ; i++){
-                                                        if( res[i]['sale_item_rel'].itemcategory == 'EGGS' || res[i].has_vat ){
+                                                        if( res[i]['sale_item_rel'].itemcategory == 'EGGS' || res[i].has_vat == '0' ){
                                                             setHasVatProducts(true)
                                                         }
-                                                        if( res[i]['sale_item_rel'].itemcategory != 'EGGS' && !res[i].has_vat ){
+                                                        if( res[i]['sale_item_rel'].itemcategory != 'EGGS' && !res[i].has_vat == '0' ){
                                                             setHasNonVatProducts(true)
                                                         }                                                    
                                                     }
@@ -266,7 +267,7 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                     </View>
                                     <View style={{ flex: 0.2, flexDirection:'row',paddingHorizontal: 20,marginTop: 20}}>
                                         <Text style={{width: 100}}>Phone: </Text>
-                                        <Text style={{}}>{(savedBuyerData != undefined) ? savedBuyerData['contact_no'] : ''} </Text>
+                                        <Text style={{}}>{(savedBuyerData != undefined) ? savedBuyerData['contact_no'] : ''}  </Text>
                                     </View>
                                     {( hasVatProducts ) ?
                                         <View>
@@ -303,7 +304,7 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                                         :
                                                             <View></View>
                                                         } 
-                                                        {( value['sale_item_rel'].category_name != 'EGGS' && value.has_vat ) ?
+                                                        {( value['sale_item_rel'].category_name != 'EGGS' && value.has_vat == '1' ) ?
                                                             <View>
                                                                 <View style={{ borderBottomColor: '#ededed', borderBottomWidth: 1,paddingVertical: 15 }}>
                                                                     <Text style={{ width: '100%',marginLeft: 20}}><Text style={{ fontWeight: 'bold' }}> </Text>{value['sale_item_rel'].name}</Text>
@@ -335,7 +336,7 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                         : 
                                             <View></View>
                                         }
-                                        {(hasNonVatProducts) ? 
+                                        {(hasVatProducts) ? 
                                             <View>
                                                 <View style={{flexDirection:'row' ,justifyContent: 'flex-end',marginTop: 20}}>
                                                     <Text></Text>
@@ -372,28 +373,19 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                         :
                                             <View></View>
                                         }
-                                        
                                         {(savedOrderResonce != undefined) ?
                                             savedOrderResonce.map((value , key) => {
-
+                                                console.log(value)
                                                 return (
                                                     <View key={key} >
-                                                        {( value['sale_item_rel'].category_name != 'EGGS' && !value.has_vat  ) ?
+                                                        {( value['sale_item_rel'].category_name != 'EGGS' && value.has_vat == '0'  ) ?
                                                             <View key={key} style={{ borderBottomColor: '#ededed', borderBottomWidth: 1,paddingVertical: 15 }}>
                                                                 <Text style={{ width: '100%',marginLeft: 20}}><Text style={{ fontWeight: 'bold' }}></Text>{value['sale_item_rel'].name}</Text>
                                                                 <View key={key} style={{flex: 0.2,flexDirection: 'row',justifyContent:'space-between',paddingHorizontal: 20}}>
                                                                     <Text style={{ }}>{(parseFloatt(value['qty'])).toFixed(2)}</Text>
                                                                     <Text style={{ }}>£{(value['sale_price'])}</Text>
-                                                                    {/* <Text style={{ }}>£ 0</Text> */}
                                                                     <Text style={{ }}>£{((value['sale_price'] * parseFloatt(value['qty'])).toFixed(2)).toString()}</Text>
                                                                 </View>
-                                                                {/* <View key={key} style={{flex: 0.2,flexDirection: 'row',justifyContent:'space-between',paddingHorizontal: 20}}>
-                                                                    <Text style={{ width: 90}}>{}</Text>
-                                                                    <Text style={{ }}>{}</Text>
-                                                                    <Text style={{ fontWeight: 'bold'}}>VAT</Text>
-                                                                    <Text style={{ }}>£{((value['sale_price']*100) / 120).toFixed(2)}</Text>
-                                                                </View> */}
-
                                                             </View>
                                                         :
                                                             <View></View>
@@ -499,6 +491,7 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                 <Text style={{width: 100}}>Phone: </Text>
                                 <Text style={{}}>{(savedBuyerData != undefined) ? savedBuyerData['contact_no'] : ''} </Text>
                             </View>
+
                             {( hasVatProducts ) ?
                                 <View>
                                     {/* <View style={{marginTop: 20,paddingTop: 10,borderTopColor: 'black', borderTopWidth: 1}}><Text style={{justifyContent: 'center',textAlign: 'center',fontWeight:'bold'}}>Items without VAT</Text></View> */}
@@ -518,6 +511,7 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                     
                                 {(savedOrderResonce != undefined) ?
                                     savedOrderResonce.map((value , key) => {
+
                                         return (
                                             <View key={key} >
                                                 {( value['sale_item_rel'].category_name == 'EGGS' ) ?
@@ -534,7 +528,7 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                                 :
                                                     <View></View>
                                                 } 
-                                                {( value['sale_item_rel'].category_name != 'EGGS' && value.has_vat ) ?
+                                                {( value['sale_item_rel'].category_name != 'EGGS' && value.has_vat == '1' ) ?
                                                     <View>
                                                         <View style={{ borderBottomColor: '#ededed', borderBottomWidth: 1,paddingVertical: 15 }}>
                                                             <Text style={{ width: '100%',marginLeft: 20}}><Text style={{ fontWeight: 'bold' }}> </Text>{value['sale_item_rel'].name}</Text>
@@ -566,7 +560,7 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                 : 
                                     <View></View>
                                 }
-                                {(hasNonVatProducts) ? 
+                                {(hasVatProducts) ? 
                                     <View>
                                         <View style={{flexDirection:'row' ,justifyContent: 'flex-end',marginTop: 20}}>
                                             <Text></Text>
@@ -599,7 +593,6 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                 : 
                                     <View></View>    
                                 }
-                                
                                 {( WithoutVatProductTotal > 0 ) ?
                                     <View>
                                         <Text style={{textAlign: 'center',marginTop: 30,marginBottom: 10}}>*******************************</Text>
@@ -612,42 +605,44 @@ export default function ViewPDF({navigation , route , text, onOK}) {
                                         </View>
                                         <View style={{marginTop: 10}}>
                                         </View>
+
+                                        {(savedOrderResonce != undefined) ?
+                                            savedOrderResonce.map((value , key) => {
+                                                return (
+                                                    <View key={key} >
+                                                        {( value['sale_item_rel'].category_name != 'EGGS' && value.has_vat == '0'  ) ?
+                                                            <View key={key} style={{ borderBottomColor: '#ededed', borderBottomWidth: 1,paddingVertical: 15 }}>
+                                                                <Text style={{ width: '100%',marginLeft: 20}}><Text style={{ fontWeight: 'bold' }}></Text>{value['sale_item_rel'].name}</Text>
+                                                                <View key={key} style={{flex: 0.2,flexDirection: 'row',justifyContent:'space-between',paddingHorizontal: 20}}>
+                                                                    {/* <Text style={{ }}>{(parseIntt(value['qty']))}</Text> */}
+                                                                    <Text style={{ }}>{(parseFloatt(value['qty'])).toFixed(2)}</Text>
+                                                                    <Text style={{ }}>£{(value['sale_price'])}</Text>
+                                                                    {/* <Text style={{ }}>£ 0</Text> */}
+                                                                    <Text style={{ }}>£{((value['sale_price'] * parseFloatt(value['qty'])).toFixed(2)).toString()}</Text>
+                                                                </View>
+                                                                {/* <View key={key} style={{flex: 0.2,flexDirection: 'row',justifyContent:'space-between',paddingHorizontal: 20}}>
+                                                                    <Text style={{ width: 90}}>{}</Text>
+                                                                    <Text style={{ }}>{}</Text>
+                                                                    <Text style={{ fontWeight: 'bold'}}>VAT</Text>
+                                                                    <Text style={{ }}>£{((value['sale_price']*100) / 120).toFixed(2)}</Text>
+                                                                </View> */}
+
+                                                            </View>
+                                                        :
+                                                            <View></View>
+                                                        }
+                                                    </View>
+                                                )
+                                            })
+                                        : 
+                                            <View></View>
+                                        }
                                     </View>
                                 :
                                     <View></View>
                                 }
                                 
-                                {(savedOrderResonce != undefined) ?
-                                    savedOrderResonce.map((value , key) => {
-                                        return (
-                                            <View key={key} >
-                                                {( value['sale_item_rel'].category_name != 'EGGS' && !value.has_vat  ) ?
-                                                    <View key={key} style={{ borderBottomColor: '#ededed', borderBottomWidth: 1,paddingVertical: 15 }}>
-                                                        <Text style={{ width: '100%',marginLeft: 20}}><Text style={{ fontWeight: 'bold' }}></Text>{value['sale_item_rel'].name}</Text>
-                                                        <View key={key} style={{flex: 0.2,flexDirection: 'row',justifyContent:'space-between',paddingHorizontal: 20}}>
-                                                            {/* <Text style={{ }}>{(parseIntt(value['qty']))}</Text> */}
-                                                            <Text style={{ }}>{(parseFloatt(value['qty'])).toFixed(2)}</Text>
-                                                            <Text style={{ }}>£{(value['sale_price'])}</Text>
-                                                            {/* <Text style={{ }}>£ 0</Text> */}
-                                                            <Text style={{ }}>£{((value['sale_price'] * parseFloatt(value['qty'])).toFixed(2)).toString()}</Text>
-                                                        </View>
-                                                        {/* <View key={key} style={{flex: 0.2,flexDirection: 'row',justifyContent:'space-between',paddingHorizontal: 20}}>
-                                                            <Text style={{ width: 90}}>{}</Text>
-                                                            <Text style={{ }}>{}</Text>
-                                                            <Text style={{ fontWeight: 'bold'}}>VAT</Text>
-                                                            <Text style={{ }}>£{((value['sale_price']*100) / 120).toFixed(2)}</Text>
-                                                        </View> */}
-
-                                                    </View>
-                                                :
-                                                    <View></View>
-                                                }
-                                            </View>
-                                        )
-                                    })
-                                : 
-                                    <View></View>
-                                }
+                               
                                 {(WithoutVatProductTotal > 0)?    
                                     <View style={{flexDirection:'row' ,justifyContent: 'space-between',marginTop: 20}}>
                                         <Text></Text>
