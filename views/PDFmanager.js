@@ -1004,7 +1004,8 @@ export default function PDFmanager({navigation , text, onOK}) {
         AsyncStorage.removeItem('currentVATstatus');
         AsyncStorage.removeItem('orderSaveReponce');
         AsyncStorage.removeItem('orderSaveBuyer');
-        navigation.push('DashboardRoutes')
+        navigation.push('Dashboard')
+        // navigation.push('DashboardRoutes')
     }
 
     function printReceipt() {
