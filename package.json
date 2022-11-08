@@ -20,6 +20,7 @@
     "react-native": "0.67.4",
     "react-native-bluetooth-escpos-printer": "0.0.5",
     "react-native-draganddrop-board": "^1.0.4",
+    "react-native-eject": "^0.1.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",

@@ -1004,7 +1004,7 @@ export default function PDFmanager({navigation , text, onOK}) {
         AsyncStorage.removeItem('orderSaveBuyer');
         setSaveOrderActivIndictor(false)
 
-        navigation.push('DashboardRoutes')
+        navigation.push('Dashboard')
     }
 
     function printReceipt() {
