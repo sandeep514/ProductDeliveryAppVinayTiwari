@@ -167,7 +167,9 @@ export default function ItemsScreenWithQty({navigation , route}) {
 			AsyncStorage.getItem('selectedLoadsNumbers').then((value) => { 
 				let load_numbers = value;
 				getItemsByVehicleAndLoads( vehicheId , load_numbers).then((res) => {
-					// console.log(res.data.data)
+
+					console.log('res.data.data')
+					console.log(res.data.data['LOAD-27-12-2022-300']);
 					setListItems(res.data.data);
 					setActiveIndicatorLoader(false);
 					setActiveIndicatorLoaderImages(true)
