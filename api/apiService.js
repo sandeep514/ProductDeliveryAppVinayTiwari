@@ -261,6 +261,8 @@ export const getPriorityDrivers = (driverId, routeId) => {
 
 			apiClient.get('get-buyer-priortity-by-driver/' + driverId + '/' + routeId).then((response) => {
 				if (response.data.status == true) {
+					console.log('response');
+					console.log(response);
 					resolve(response);
 				} else {
 					reject(response.data.error);
@@ -327,8 +329,9 @@ export const getPrioritySortedDrivers = (driverId, routeId) => {
 export const getListInvoices = (driverId, vehicheId) => {
 	return new Promise((resolve, reject) => {
 		CheckConnectivity().then((res) => {
-
 			apiClient.get('get-sales-details/' + driverId + '/' + vehicheId).then((response) => {
+				console.log('response res');
+				console.log(response);
 				if (response.data.status == true) {
 					resolve(response);
 				} else {
@@ -465,6 +468,8 @@ export const getSaleItemByInvoice = (invoiceNo) => {
 				apiClient.post('get-sale-item-by-invoice', {
 					invoiceNumber: invoiceNo
 				}).then((response) => {
+					console.log('response');
+					console.log(response.data.data);
 					// console.log(response.data.data)
 					if (response.data.status == true) {
 						resolve(response);
@@ -577,8 +582,8 @@ export const getItemRequirement = () => {
 
 export const printing = (data, invoiceNo, buyerName, buyerAddress, buyerPhone, undeliveredItem, hasVatProduct, hasNonVatProducts) => {
 	let commandsArray = [];
-
 	let totalAmount = 0;
+
 	commandsArray.push({
 		append: '\n'
 	});
@@ -592,6 +597,8 @@ export const printing = (data, invoiceNo, buyerName, buyerAddress, buyerPhone, u
 		appendBitmapText: "SUN FARMS",
 		fontSize: 45
 	});
+
+
 	commandsArray.push({
 		append: '\n'
 	});
@@ -1087,6 +1094,7 @@ export const printing = (data, invoiceNo, buyerName, buyerAddress, buyerPhone, u
 		append: (totalAmount + nonVatTotal).toFixed(2)
 	});
 
+
 	commandsArray.push({
 		append: '\n'
 	});
@@ -1166,6 +1174,14 @@ export const printing = (data, invoiceNo, buyerName, buyerAddress, buyerPhone, u
 			// commandsArray.push({append: '--------------------------------\n'});
 		}
 	}
+	commandsArray.push({
+		appendAlignment: StarPRNT.AlignmentPosition.Left
+	});
+	commandsArray.push({
+		append: "Remarks:" + data[0]?.sale_signature_remarks?.remarks
+	});
+
+	commandsArray.push({ appendQrCode: 'https://delivery-app.ripungupta.com/backend/public/check/invoice/' + invoiceNo, QrCodeModel: "No2", QrCodeLevel: "L", cell: 8, alignment: "Center" });
 
 	commandsArray.push({
 		append: '\n'
@@ -1179,18 +1195,11 @@ export const printing = (data, invoiceNo, buyerName, buyerAddress, buyerPhone, u
 	commandsArray.push({
 		append: '\n'
 	});
-	commandsArray.push({
-		append: '\n'
-	});
-	commandsArray.push({
-		append: '\n'
-	});
-	commandsArray.push({
-		append: '\n'
-	});
+
 
 	try {
 		var printResult = StarPRNT.print('StarPRNT', commandsArray, 'BT:');
+
 		// alert(printResult); // Success!
 		// setRefreshPage("refresh");
 
@@ -1306,18 +1315,18 @@ export const printingUndeliveredItems = (data) => {
 	commandsArray.push({
 		append: '\n'
 	});
-	commandsArray.push({
-		append: '\n'
-	});
-	commandsArray.push({
-		append: '\n'
-	});
-	commandsArray.push({
-		append: '\n'
-	});
-	commandsArray.push({
-		append: '\n'
-	});
+	// commandsArray.push({
+	// 	append: '\n'
+	// });
+	// commandsArray.push({
+	// 	append: '\n'
+	// });
+	// commandsArray.push({
+	// 	append: '\n'
+	// });
+	// commandsArray.push({
+	// 	append: '\n'
+	// });
 	try {
 		var printResult = StarPRNT.print('StarPRNT', commandsArray, 'BT:');
 		return false;
