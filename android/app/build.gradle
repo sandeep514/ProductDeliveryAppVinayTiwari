@@ -78,7 +78,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: true,  // clean and rebuild if changing
+    enableHermes: false,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -118,7 +118,7 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
  * and the benefits of using Hermes will therefore be sharply reduced.
  */
-def enableHermes = project.ext.react.get("enableHermes", true);
+def enableHermes = project.ext.react.get("enableHermes", false);
 
 /**
  * Architectures to build native code for in debug.
@@ -137,6 +137,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    
     splits {
         abi {
             reset()
@@ -152,6 +153,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('product_delivery.keystore')
+            storePassword 'productdelivery'
+            keyAlias 'product_delivery'
+            keyPassword 'productdelivery'
+        }
     }
     buildTypes {
         debug {
@@ -166,6 +173,8 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -192,6 +201,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "androidx.appcompat:appcompat:1.0.2"
+     implementation 'androidx.annotation:annotation:1.0.2'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
