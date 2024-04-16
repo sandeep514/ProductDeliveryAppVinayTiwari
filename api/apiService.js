@@ -962,7 +962,7 @@ export const printing = (data, invoiceNo, buyerName, buyerAddress, buyerPhone, u
 		});
 
 		for (let i = 0; i < data.length; i++) {
-			if (data[i]['sale_item_rel'].itemcategory != 'EGGS' && data[i]['sale_item_rel'].itemcategory != 3 && data[i]['sale_item_rel'].itemcategory != '3' && !data[i]['has_vat']) {
+			if (data[i]['sale_item_rel'].itemcategory != 'EGGS' && data[i]['sale_item_rel'].itemcategory != 3 && data[i]['sale_item_rel'].itemcategory != '3' && data[i]['has_vat'] == '0') {
 				let sitem = data[i]['sale_item_rel']['name'];
 				let salePrice = data[i]['sale_price'];
 				let qty = data[i]['qty'];
