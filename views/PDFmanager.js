@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, View, ToastAndroid, Keyboard, Pressable, ActivityIndicator, ScrollView, Dimensions, Modal } from 'react-native';
 import { Button, Input } from 'react-native-elements';
-import { BluetoothManager, BluetoothEscposPrinter, BluetoothTscPrinter } from 'react-native-bluetooth-escpos-printer';
+import { BluetoothManager, BluetoothEscposPrinter, BluetoothTscPrinter } from 'tp-react-native-bluetooth-printer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
 import Signature from 'react-native-signature-canvas';
@@ -879,7 +879,7 @@ export default function PDFmanager({ navigation, text, onOK }) {
             commandsArray.push({ append: '--------------------------------\n' });
 
             for (let i = 0; i < savedOrderResonce.length; i++) {
-                if (savedOrderResonce[i]['sale_item_rel'].itemcategory != 'EGGS' && !savedOrderResonce[i]['has_vat']) {
+                if (savedOrderResonce[i]['sale_item_rel'].itemcategory != 'EGGS' || !savedOrderResonce[i]['has_vat']) {
                     let sitem = savedOrderResonce[i]['sale_item_rel']['name'];
                     let salePrice = savedOrderResonce[i]['sale_price'];
                     let qty = savedOrderResonce[i]['qty'];

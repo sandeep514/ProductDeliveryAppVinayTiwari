@@ -41,7 +41,7 @@ allprojects {
         }
         google()
         maven { url 'https://www.jitpack.io' }
-         exclusiveContent {
+        exclusiveContent {
            filter {
                includeGroup "com.facebook.react"
            }

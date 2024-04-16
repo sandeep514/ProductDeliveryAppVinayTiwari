@@ -1,3 +1,5 @@
 rootProject.name = 'ProductDeliveryApp'
+include ':tp-react-native-bluetooth-printer'
+project(':tp-react-native-bluetooth-printer').projectDir = new File(rootProject.projectDir, '../node_modules/tp-react-native-bluetooth-printer/android')
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
