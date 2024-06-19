@@ -781,18 +781,18 @@ export default function PDFmanager({ navigation, text, onOK }) {
 
 
             for (let i = 0; i < savedOrderResonce.length; i++) {
-                if (savedOrderResonce[i]['sale_item_rel'].itemcategory == 'EGGS' || savedOrderResonce[i].has_vat == 1) {
+                if (savedOrderResonce[i]['sale_item_rel'].itemcategory == 'EGGS' || savedOrderResonce[i]['sale_item_rel'].itemcategory == '3' || savedOrderResonce[i].has_vat == 1) {
                     let sitem = savedOrderResonce[i]['sale_item_rel']['name'];
                     let salePrice = savedOrderResonce[i]['sale_price'];
                     let qty = savedOrderResonce[i]['qty'];
                     let vat = 0;
                     let amount = 0;
 
-                    if (savedOrderResonce[i]['sale_item_rel'].itemcategory != 'EGGS') {
+                    if (savedOrderResonce[i]['sale_item_rel'].itemcategory != 'EGGS' && savedOrderResonce[i]['sale_item_rel'].itemcategory != '3') {
                         vat = ((((((savedOrderResonce[i]['sale_price'] * savedOrderResonce[i]['qty']) * 1.20) - (savedOrderResonce[i]['sale_price'] * savedOrderResonce[i]['qty'])))).toFixed(2)).toString();
                     }
 
-                    if (savedOrderResonce[i]['sale_item_rel'].itemcategory == 'EGGS') {
+                    if (savedOrderResonce[i]['sale_item_rel'].itemcategory == 'EGGS' || savedOrderResonce[i]['sale_item_rel'].itemcategory == '3') {
                         amount = ((savedOrderResonce[i]['sale_price'] * savedOrderResonce[i]['qty']).toFixed(2)).toString();
                     } else {
                         amount = (((savedOrderResonce[i]['sale_price'] * savedOrderResonce[i]['qty']) * 1.20).toFixed(2)).toString();
@@ -879,7 +879,7 @@ export default function PDFmanager({ navigation, text, onOK }) {
             commandsArray.push({ append: '--------------------------------\n' });
 
             for (let i = 0; i < savedOrderResonce.length; i++) {
-                if (savedOrderResonce[i]['sale_item_rel'].itemcategory != 'EGGS' || !savedOrderResonce[i]['has_vat']) {
+                if (savedOrderResonce[i]['sale_item_rel'].itemcategory != 'EGGS' && savedOrderResonce[i]['sale_item_rel'].itemcategory != '3' && !savedOrderResonce[i]['has_vat']) {
                     let sitem = savedOrderResonce[i]['sale_item_rel']['name'];
                     let salePrice = savedOrderResonce[i]['sale_price'];
                     let qty = savedOrderResonce[i]['qty'];

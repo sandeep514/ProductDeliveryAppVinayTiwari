@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {Image,ImageBackground,StyleSheet,Text,View,ToastAndroid,Keyboard,Pressable,ActivityIndicator} from 'react-native';
-import {Button, Input} from 'react-native-elements';
-import {Formik} from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Image, ImageBackground, StyleSheet, Text, View, ToastAndroid, Keyboard, Pressable, ActivityIndicator } from 'react-native';
+import { Button, Input } from 'react-native-elements';
+import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import MainScreen from '../layout/MainScreen';
-import {Colors} from './../components/Colors';
-import {heightToDp, widthToDp} from '../utils/Responsive';
-import {checkLogin} from '../api/apiService';
+import { Colors } from './../components/Colors';
+import { heightToDp, widthToDp } from '../utils/Responsive';
+import { checkLogin } from '../api/apiService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-export default function LoginScreen({navigation}) {
-	const [ isLoaderActive ,setIsLoaderActive ] = useState(false);
-	
+export default function LoginScreen({ navigation }) {
+	const [isLoaderActive, setIsLoaderActive] = useState(false);
+
 	useEffect(() => {
 	})
 
@@ -28,11 +28,11 @@ export default function LoginScreen({navigation}) {
 			return;
 		}
 		setIsLoaderActive(true);
-		checkLogin( data ).then((res) => {
+		checkLogin(data).then((res) => {
 
 			setIsLoaderActive(false);
 			let response = res.data.data;
-			
+
 			AsyncStorage.setItem('user_address', response.address);
 			AsyncStorage.setItem('user_contact_no', response.contact_no);
 			AsyncStorage.setItem('user_dob', response.dob);
@@ -42,100 +42,100 @@ export default function LoginScreen({navigation}) {
 			AsyncStorage.setItem('user_licenseno', response.licenseno);
 			AsyncStorage.setItem('user_name', response.name);
 			AsyncStorage.setItem('user_username', response.username);
-			AsyncStorage.setItem('printerName', (response.printerName != null && response.printerName != undefined) ? response.printerName : '' );
-			
-			navigation.navigate('Vehicle');			
-		} , (err) => {
+			AsyncStorage.setItem('printerName', (response.printerName != null && response.printerName != undefined) ? response.printerName : '');
+
+			navigation.navigate('Vehicle');
+		}, (err) => {
 			setIsLoaderActive(false);
 			showToast(err)
 		});
 	};
 	const showToast = (message) => {
-		ToastAndroid.showWithGravityAndOffset(message,ToastAndroid.LONG,ToastAndroid.BOTTOM,0,20);
+		ToastAndroid.showWithGravityAndOffset(message, ToastAndroid.LONG, ToastAndroid.BOTTOM, 0, 20);
 	};
 
-	
+
 	return (
 
-		<Pressable style={{flex: 1}} onPress={Keyboard.dismiss}>
+		<Pressable style={{ flex: 1 }} onPress={Keyboard.dismiss}>
 			<MainScreen>
 				<ImageBackground
 					source={require('../assets/images/main_top_left.png')}
 					style={styles.topImage}
-					/>
+				/>
 				<Pressable onPress={Keyboard.dismiss}></Pressable>
 				<View style={styles.innerContainer}>
-					
+
 					<View style={styles.containerElements}>
 						<Text style={styles.loginHeading} allowFontScaling={false}>
-							Login
+							Login v20
 						</Text>
 						<KeyboardAwareScrollView>
 							<Image source={require('../assets/images/login.png')} style={styles.logo} />
 							<Formik
-								initialValues={{username: 'vin', password: '12345678'}}
+								initialValues={{ username: 'vin', password: '12345678' }}
 								onSubmit={(values) => formSubmitData(values)}>
-							{({handleChange, handleBlur, handleSubmit, values}) => (
-								<View style={{width: '100%'}}>
-									<View style={styles.inputContainer}>
-										<Input
-											placeholder="User Name"
-											leftIcon={
-										<Icon name="user" size={24} color={Colors.primary} />
-										}
-										allowFontScaling={false}
-										onChangeText={handleChange('username')}
-										// onBlur={handleBlur('username')}
-										value={values.username}
-										/>
-										<Input
-										placeholder="Password"
-										leftIcon={
-										<Icon name="lock" size={24} color={Colors.primary} />
-										}
-										secureTextEntry={true}
-										allowFontScaling={false}
-										onChangeText={handleChange('password')}
-										// onBlur={handleBlur('password')}
-										value={values.password}
-										/>
-									</View>
-									{ ( isLoaderActive == false ) ?
-										<View style={styles.buttonContainer}>
-											<View>
-												<Button
-													title="LOGIN"
-													buttonStyle={[
-													styles.buttonStyle,
-													{
-														backgroundColor: Colors.primary,
-													},
-												]}
-												titleStyle={{
-													fontWeight: 'bold',
-												}}
+								{({ handleChange, handleBlur, handleSubmit, values }) => (
+									<View style={{ width: '100%' }}>
+										<View style={styles.inputContainer}>
+											<Input
+												placeholder="User Name"
+												leftIcon={
+													<Icon name="user" size={24} color={Colors.primary} />
+												}
 												allowFontScaling={false}
-												onPress={handleSubmit}
-												/>
+												onChangeText={handleChange('username')}
+												// onBlur={handleBlur('username')}
+												value={values.username}
+											/>
+											<Input
+												placeholder="Password"
+												leftIcon={
+													<Icon name="lock" size={24} color={Colors.primary} />
+												}
+												secureTextEntry={true}
+												allowFontScaling={false}
+												onChangeText={handleChange('password')}
+												// onBlur={handleBlur('password')}
+												value={values.password}
+											/>
+										</View>
+										{(isLoaderActive == false) ?
+											<View style={styles.buttonContainer}>
+												<View>
+													<Button
+														title="LOGIN"
+														buttonStyle={[
+															styles.buttonStyle,
+															{
+																backgroundColor: Colors.primary,
+															},
+														]}
+														titleStyle={{
+															fontWeight: 'bold',
+														}}
+														allowFontScaling={false}
+														onPress={handleSubmit}
+													/>
+												</View>
 											</View>
-										</View>
-									
-									:
-										<View  style={[styles.buttonStyle, {backgroundColor: Colors.primary,textAlign:'center' } ]}>
-											<Text style={{ justifyContent: 'center' , textAlign: 'center',top: 10 }}><ActivityIndicator size="large" color="#fff" style={{ top: 40 }}/></Text>
-										</View>
-									}
-								</View>
-							)}
-					</Formik>
-					</KeyboardAwareScrollView>
-				</View>
+
+											:
+											<View style={[styles.buttonStyle, { backgroundColor: Colors.primary, textAlign: 'center' }]}>
+												<Text style={{ justifyContent: 'center', textAlign: 'center', top: 10 }}><ActivityIndicator size="large" color="#fff" style={{ top: 40 }} /></Text>
+											</View>
+										}
+									</View>
+								)}
+							</Formik>
+						</KeyboardAwareScrollView>
+					</View>
 				</View>
 				<View>
 					<ImageBackground
 						source={require('../assets/images/login_bottom_right.png')}
 						style={styles.bottomImage}
-						/>
+					/>
 				</View>
 			</MainScreen>
 		</Pressable>
