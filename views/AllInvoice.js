@@ -290,9 +290,9 @@ export default function AddQuantity({ navigation }) {
         return false
         let totalAmount = 0;
         commandsArray.push({ appendAlignment: StarPRNT.AlignmentPosition.Center });
-        commandsArray.push({ appendBitmapText: "SUN FARMS", fontSize: 40 });
+        commandsArray.push({ appendBitmapText: "Unit 4", fontSize: 40 });
         commandsArray.push({ append: '\n' });
-        commandsArray.push({ append: "Unit 12C, Bridge Industrial Estate,RH6 9HU\n" });
+        commandsArray.push({ append: "Burstow business lodge\n" });
         commandsArray.push({ append: "Phone: 07917105510\n" });
         commandsArray.push({ append: "Email: Ukinch2@gmail.com\n" });
         commandsArray.push({ appendAlignment: StarPRNT.AlignmentPosition.Left });
@@ -609,7 +609,7 @@ export default function AddQuantity({ navigation }) {
             BluetoothEscposPrinter.ALIGN.CENTER,
         );
         await BluetoothEscposPrinter.setBlob(0);
-        await BluetoothEscposPrinter.printText('SUN FARMS\n\r', {
+        await BluetoothEscposPrinter.printText('Unit 4\n\r', {
             encoding: 'GBK',
             codepage: 0,
             widthtimes: 3,
@@ -617,7 +617,21 @@ export default function AddQuantity({ navigation }) {
             fonttype: 1,
         });
         await BluetoothEscposPrinter.setBlob(0);
-        await BluetoothEscposPrinter.printText('Unit 12C, Bridge Industrial Estate,RH6 9HU\n', {
+        await BluetoothEscposPrinter.printText('Burstow business lodge\n', {
+            encoding: 'GBK',
+            codepage: 0,
+            widthtimes: 0,
+            heigthtimes: 0,
+            fonttype: 1,
+        });
+        await BluetoothEscposPrinter.printText('Smallfield\n', {
+            encoding: 'GBK',
+            codepage: 0,
+            widthtimes: 0,
+            heigthtimes: 0,
+            fonttype: 1,
+        });
+        await BluetoothEscposPrinter.printText('RH69RF\n', {
             encoding: 'GBK',
             codepage: 0,
             widthtimes: 0,

@@ -7,6 +7,16 @@ buildscript {
         ndkVersion = "25.1.8937393"
         kotlinVersion = "1.8.0"
     }
+    subprojects { subproject ->
+        afterEvaluate{
+            if((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
+                android {
+                    compileSdkVersion rootProject.ext.compileSdkVersion
+                    buildToolsVersion rootProject.ext.buildToolsVersion
+                }
+            }
+        }
+    }
     repositories {
         google()
         mavenCentral()

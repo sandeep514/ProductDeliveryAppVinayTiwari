@@ -361,7 +361,7 @@ export default function PDFmanager({ navigation, text, onOK }) {
             BluetoothEscposPrinter.ALIGN.CENTER,
         );
         await BluetoothEscposPrinter.setBlob(0);
-        await BluetoothEscposPrinter.printText('SUN FARMS\n\r', {
+        await BluetoothEscposPrinter.printText('Unit 4\n\r', {
             encoding: 'GBK',
             codepage: 0,
             widthtimes: 3,
@@ -369,7 +369,21 @@ export default function PDFmanager({ navigation, text, onOK }) {
             fonttype: 1,
         });
         await BluetoothEscposPrinter.setBlob(0);
-        await BluetoothEscposPrinter.printText('Unit 12C, Bridge Industrial Estate,RH6 9HU\n\r', {
+        await BluetoothEscposPrinter.printText('Burstow business lodge\n\r', {
+            encoding: 'GBK',
+            codepage: 0,
+            widthtimes: 0,
+            heigthtimes: 0,
+            fonttype: 1,
+        });
+        await BluetoothEscposPrinter.printText('Smallfield\n\r', {
+            encoding: 'GBK',
+            codepage: 0,
+            widthtimes: 0,
+            heigthtimes: 0,
+            fonttype: 1,
+        });
+        await BluetoothEscposPrinter.printText('RH69RF\n\r', {
             encoding: 'GBK',
             codepage: 0,
             widthtimes: 0,
@@ -722,9 +736,11 @@ export default function PDFmanager({ navigation, text, onOK }) {
     async function printDesignStarPrinter(buyerData, ItemData, extraData) {
 
         commandsArray.push({ appendAlignment: StarPRNT.AlignmentPosition.Center });
-        commandsArray.push({ appendBitmapText: "SUN FARMS", fontSize: 40 });
+        commandsArray.push({ appendBitmapText: "Unit 4", fontSize: 40 });
         commandsArray.push({ append: '\n' });
-        commandsArray.push({ append: "Unit 12C, Bridge Industrial Estate,RH6 9HU\n" });
+        commandsArray.push({ append: "Burstow business lodge\n" });
+        commandsArray.push({ append: "Smallfield\n" });
+        commandsArray.push({ append: "RH69RF\n" });
         commandsArray.push({ append: "Phone: 07917105510\n" });
         commandsArray.push({ append: "Email: Ukinch2@gmail.com\n" });
         commandsArray.push({ appendAlignment: StarPRNT.AlignmentPosition.Left });
@@ -1214,8 +1230,10 @@ export default function PDFmanager({ navigation, text, onOK }) {
                                         <Text style={{ fontSize: 20, color: 'black', fontWeight: '700', backgroundColor: 'white', textAlign: 'center' }}>
                                             Invoice
                                         </Text>
-                                        <Text style={{ fontSize: 30, textAlign: 'center' }}>SUN FARMS</Text>
-                                        <Text style={{ fontSize: 15, textAlign: 'center' }}>Unit 12C, Bridge Industrial Estate,RH6 9HU</Text>
+                                        <Text style={{ fontSize: 30, textAlign: 'center' }}>Unit 4</Text>
+                                        <Text style={{ fontSize: 15, textAlign: 'center' }}>Burstow business lodge</Text>
+                                        <Text style={{ fontSize: 15, textAlign: 'center' }}>Smallfield</Text>
+                                        <Text style={{ fontSize: 15, textAlign: 'center' }}>RH69RF</Text>
                                         <Text style={{ fontSize: 15, textAlign: 'center' }}>Phone: 07917105510</Text>
                                         <Text style={{ fontSize: 15, textAlign: 'center' }}>Email: Ukinch2@gmail.com</Text>
                                         <Text style={{ fontSize: 15, textAlign: 'left', marginLeft: 20 }}>INVOICE: {(invoiceNumber != undefined) ? invoiceNumber : ''}</Text>
@@ -1482,8 +1500,10 @@ export default function PDFmanager({ navigation, text, onOK }) {
                                     <Text style={{ fontSize: 20, color: 'black', fontWeight: '700', backgroundColor: 'white', textAlign: 'center' }}>
                                         Invoice
                                     </Text>
-                                    <Text style={{ fontSize: 30, textAlign: 'center' }}>SUN FARMS</Text>
-                                    <Text style={{ fontSize: 15, textAlign: 'center' }}>Unit 12C, Bridge Industrial Estate,RH6 9HU</Text>
+                                    <Text style={{ fontSize: 30, textAlign: 'center' }}>Unit 4</Text>
+                                    <Text style={{ fontSize: 15, textAlign: 'center' }}>Burstow business lodge</Text>
+                                    <Text style={{ fontSize: 15, textAlign: 'center' }}>Smallfield</Text>
+                                    <Text style={{ fontSize: 15, textAlign: 'center' }}>RH69RF</Text>
                                     <Text style={{ fontSize: 15, textAlign: 'center' }}>Phone: 07917105510</Text>
                                     <Text style={{ fontSize: 15, textAlign: 'center' }}>Email: Ukinch2@gmail.com</Text>
                                     <Text style={{ fontSize: 15, textAlign: 'left', marginLeft: 20 }}>INVOICE: {(invoiceNumber != undefined) ? invoiceNumber : ''}</Text>

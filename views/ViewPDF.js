@@ -247,8 +247,10 @@ export default function ViewPDF({ navigation, route, text, onOK }) {
                                         <Text style={{ fontSize: 20, color: 'black', fontWeight: '700', backgroundColor: 'white', textAlign: 'center' }}>
                                             Invoice
                                         </Text>
-                                        <Text style={{ fontSize: 30, textAlign: 'center' }}>SUN FARMS</Text>
-                                        <Text style={{ fontSize: 15, textAlign: 'center' }}>Unit 12C, Bridge Industrial Estate,RH6 9HU</Text>
+                                        <Text style={{ fontSize: 30, textAlign: 'center' }}>Unit 4</Text>
+                                        <Text style={{ fontSize: 15, textAlign: 'center' }}>Burstow business lodge</Text>
+                                        <Text style={{ fontSize: 15, textAlign: 'center' }}>Smallfield</Text>
+                                        <Text style={{ fontSize: 15, textAlign: 'center' }}>RH69RF</Text>
                                         <Text style={{ fontSize: 15, textAlign: 'center' }}>Phone: 07917105510</Text>
                                         <Text style={{ fontSize: 15, textAlign: 'center' }}>Email: Ukinch2@gmail.com</Text>
                                         <Text style={{ fontSize: 15, textAlign: 'left', marginLeft: 20 }}>INVOICE: {(invoiceNumber != undefined) ? invoiceNumber : ''}</Text>
@@ -491,8 +493,10 @@ export default function ViewPDF({ navigation, route, text, onOK }) {
                                     <Text style={{ fontSize: 20, color: 'black', fontWeight: '700', backgroundColor: 'white', textAlign: 'center' }}>
                                         Invoice
                                     </Text>
-                                    <Text style={{ fontSize: 30, textAlign: 'center' }}>SUN FARMS</Text>
-                                    <Text style={{ fontSize: 15, textAlign: 'center' }}>Unit 12C, Bridge Industrial Estate,RH6 9HU</Text>
+                                    <Text style={{ fontSize: 30, textAlign: 'center' }}>Unit 4</Text>
+                                    <Text style={{ fontSize: 15, textAlign: 'center' }}>Burstow business lodge</Text>
+                                    <Text style={{ fontSize: 15, textAlign: 'center' }}>Smallfield</Text>
+                                    <Text style={{ fontSize: 15, textAlign: 'center' }}>RH69RF</Text>
                                     <Text style={{ fontSize: 15, textAlign: 'center' }}>Phone: 07917105510</Text>
                                     <Text style={{ fontSize: 15, textAlign: 'center' }}>Email: Ukinch2@gmail.com</Text>
                                     <Text style={{ fontSize: 15, textAlign: 'left', marginLeft: 20 }}>INVOICE: {(invoiceNumber != undefined) ? invoiceNumber : ''}</Text>

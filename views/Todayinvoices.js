@@ -140,7 +140,7 @@ export default function Todayinvoices({ navigation }) {
             BluetoothEscposPrinter.ALIGN.CENTER,
         );
         await BluetoothEscposPrinter.setBlob(0);
-        await BluetoothEscposPrinter.printText('SUN FARMS\n\r', {
+        await BluetoothEscposPrinter.printText('Unit 4\n\r', {
             encoding: 'GBK',
             codepage: 0,
             widthtimes: 3,
