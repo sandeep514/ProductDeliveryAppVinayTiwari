@@ -1,35 +1,36 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
-  View,
-  Text,
-  Image,
-  StatusBar,
-  StyleSheet,
-  TouchableHighlight,
-  ScrollView,
-  TouchableOpacity,
-  Pressable,
+	View,
+	Text,
+	Image,
+	StatusBar,
+	StyleSheet,
+	TouchableHighlight,
+	ScrollView,
+	TouchableOpacity,
+	Pressable,
 } from 'react-native';
-import {Card, ListItem, Button} from 'react-native-elements';
+import { Card, ListItem, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
-import {Colors} from '../components/Colors';
-import {widthToDp, heightToDp} from '../utils/Responsive';
+import { Colors } from '../components/Colors';
+import { heightToDp } from '../utils/Responsive';
 import MainScreen from '../layout/MainScreen';
 import DashboardCard from '../components/DashboardCard';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { generateRandString, getPriorityDrivers, getPrioritySortedDrivers, getTodaySale, getVehicleLoadCount } from '../api/apiService';
+import { generateRandString, getPriorityDrivers, getTodaySale, getVehicleLoadCount } from '../api/apiService';
 import { ActivityIndicator } from 'react-native';
 // import GetLocation from 'react-native-get-location'
 
-export default function Dashboard({navigation , route}) {
-	const [ userName ,setuserName ] = useState();
-	const [ selectedVehicle ,setselectedVehicle ] = useState();
-	const [ selectedVehicleCount ,setSelectedLoadCount ] = useState();
-	const [ SalesOfDay ,setSalesOfDay ] = useState();
-	const [ TotalAmount ,setTotalAmount ] = useState();
-	const [ listRoute ,setListRoute ] = useState();
+export default function Dashboard({ navigation, route }) {
+	const [userName, setuserName] = useState();
+	const [selectedVehicle, setselectedVehicle] = useState();
+	const [selectedVehicleCount, setSelectedLoadCount] = useState();
+	const [SalesOfDay, setSalesOfDay] = useState();
+	const [TotalAmount, setTotalAmount] = useState();
+	const [listRoute, setListRoute] = useState();
 
 	function getLocation() {
 		// GetLocation.getCurrentPosition({enableHighAccuracy: true,timeout: 10000,
@@ -39,29 +40,46 @@ export default function Dashboard({navigation , route}) {
 		// 	const { code, message } = error;
 		// })
 	}
-	function getRoutes(){
+
+	async function requestBluetoothPermissions() {
+		try {
+			const connectPermission = await request(PERMISSIONS.ANDROID.BLUETOOTH_CONNECT);
+			const scanPermission = await request(PERMISSIONS.ANDROID.BLUETOOTH_SCAN);
+			const advertisePermission = await request(PERMISSIONS.ANDROID.BLUETOOTH_ADVERTISE);
+
+			if (connectPermission === RESULTS.GRANTED && scanPermission === RESULTS.GRANTED) {
+				console.log("All Bluetooth permissions granted");
+			} else {
+				console.log("Bluetooth permissions denied");
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	}
+	function getRoutes() {
 		AsyncStorage.getItem('selectedRoute').then((routeId) => {
 			AsyncStorage.getItem('user_id').then((driverid) => {
-				getPriorityDrivers(driverid , routeId).then((res) => {
+				getPriorityDrivers(driverid, routeId).then((res) => {
 					setListRoute(res.data.data);
-				} , (err) =>{
+				}, (err) => {
 
 				})
-			}) 
-		})	
+			})
+		})
 	}
 
 	useEffect(() => {
+		requestBluetoothPermissions()
 		// AsyncStorage.getAllKeys()
-    	// .then((keys)=> AsyncStorage.multiGet(keys)
-        //             .then((data) => console.log(data)));
+		// .then((keys)=> AsyncStorage.multiGet(keys)
+		//             .then((data) => console.log(data)));
 
 		AsyncStorage.getItem('selectedVehicleNo').then((value) => {
 			let vehicheId = value;
 			AsyncStorage.getItem('selectedLoadsNumbers').then((value) => {
 				let load_numbers = value;
-				if( selectedVehicleCount == undefined ){
-					getVehicleLoadCount(vehicheId , load_numbers).then((data) => {
+				if (selectedVehicleCount == undefined) {
+					getVehicleLoadCount(vehicheId, load_numbers).then((data) => {
 						setSelectedLoadCount(data.data.data)
 					});
 				}
@@ -78,15 +96,15 @@ export default function Dashboard({navigation , route}) {
 		getSalesOfDay();
 		getRoutes();
 		getLocation();
-	} , [])
+	}, [])
 
-	function getSalesOfDay(){
-		AsyncStorage.getItem('selectedVehicleNo').then( (value) => {
-			let selectedVehNo  = value;
+	function getSalesOfDay() {
+		AsyncStorage.getItem('selectedVehicleNo').then((value) => {
+			let selectedVehNo = value;
 			AsyncStorage.getItem('user_id').then((value) => {
-				let driverId =  value;
+				let driverId = value;
 
-				getTodaySale(driverId,selectedVehNo).then((res) => {
+				getTodaySale(driverId, selectedVehNo).then((res) => {
 					setSalesOfDay(res.data.data);
 					setTotalAmount(res.data.amount);
 				});
@@ -105,6 +123,7 @@ export default function Dashboard({navigation , route}) {
 						navigation.push('Profile');
 					}}
 				/>
+
 				<DashboardCard
 					backgroundColor={Colors.skyBlue}
 					cardName={selectedVehicle}
@@ -113,22 +132,24 @@ export default function Dashboard({navigation , route}) {
 						navigation.push('VehicleScreen');
 					}}
 				/>
+
 				<DashboardCard
 					backgroundColor={Colors.parrotGreen}
 					cardName="ITEMS"
 					icon="shopping-cart"
 					displayBadge={true}
-					badgeValue={(selectedVehicleCount) ? selectedVehicleCount: <ActivityIndicator size="small" color="white"></ActivityIndicator> }
+					badgeValue={(selectedVehicleCount) ? selectedVehicleCount : <ActivityIndicator size="small" color="white"></ActivityIndicator>}
 					onPress={() => {
 						navigation.push('Items');
 					}}
 				/>
+
 				<DashboardCard
 					backgroundColor={Colors.primary}
 					cardName="Loads"
 					icon="plus"
 					onPress={() => {
-						navigation.push('Demandstock' );
+						navigation.push('Demandstock');
 					}}
 				/>
 
@@ -137,21 +158,21 @@ export default function Dashboard({navigation , route}) {
 					cardName="Un-Delivered"
 					icon="list"
 					onPress={() => {
-						navigation.push('undeliveredItems' );
+						navigation.push('undeliveredItems');
 					}}
 				/>
+
 				<DashboardCard
 					backgroundColor={Colors.yellow}
 					cardName="ROUTES"
 					icon="map"
 					onPress={() => {
-						navigation.push('DashboardRoutes' , {'myRoutes' : listRoute});
+						navigation.push('DashboardRoutes', { 'myRoutes': listRoute });
 					}}
 				/>
-				
-				
+
 			</View>
-			
+
 			{/* <Pressable style={{padding: 10,backgroundColor: 'green'}} onPress={() => { navigation.push('Demandstock') }}>
 				<Text style={{textAlign: 'center',color: 'white',fontSize: 20}}>Generate New Load</Text>
 			</Pressable> */}
@@ -165,7 +186,7 @@ export default function Dashboard({navigation , route}) {
 				</Text>
 
 				<Text style={styles.barText} allowFontScaling={false}>
-					{(TotalAmount != undefined) ? 'Total: £'+TotalAmount : <Text></Text> }
+					{(TotalAmount != undefined) ? 'Total: £' + TotalAmount : <Text></Text>}
 				</Text>
 			</View>
 
@@ -176,14 +197,14 @@ export default function Dashboard({navigation , route}) {
 							<TouchableHighlight key={generateRandString()}>
 								<ListItem bottomDivider key={generateRandString()}>
 									<ListItem.Content key={generateRandString()}>
-										<ListItem.Title key={generateRandString()} style={{fontSize: 14}} allowFontScaling={false}>
+										<ListItem.Title key={generateRandString()} style={{ fontSize: 14 }} allowFontScaling={false}>
 											{l[0].buyer_rel.name}
 										</ListItem.Title>
 										<ListItem.Subtitle allowFontScaling={false} >
-											<Text style={{fontSize: 10}}>Invoice Number: {l[0].invoice}</Text>
+											<Text style={{ fontSize: 10 }}>Invoice Number: {l[0].invoice}</Text>
 										</ListItem.Subtitle>
 										<ListItem.Subtitle allowFontScaling={false} >
-											<Text style={{fontSize: 11}}>{l[0].sale_price} x {l[0].qty}</Text>	
+											<Text style={{ fontSize: 11 }}>{l[0].sale_price} x {l[0].qty}</Text>
 										</ListItem.Subtitle>
 									</ListItem.Content>
 									<View key={generateRandString()}>
@@ -192,7 +213,7 @@ export default function Dashboard({navigation , route}) {
 								</ListItem>
 							</TouchableHighlight>
 						))
-					: 
+						:
 						<View>
 							<ActivityIndicator size="large" color={Colors.primary} />
 						</View>
@@ -200,41 +221,41 @@ export default function Dashboard({navigation , route}) {
 				</ScrollView>
 			</View>
 		</MainScreen>
-  	);
+	);
 }
 
 const styles = StyleSheet.create({
-  cardSection: {
-    height: heightToDp('20%'),
-    backgroundColor: Colors.white,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '0.5%',
-  },
-  barSection: {
-    height: heightToDp('4%'),
-    backgroundColor: Colors.darkPurple,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    paddingLeft: 8,
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  itemListSection: {
-    flex: 1,
-    // borderColor: Colors.redMaroon,
-    // borderWidth: 4,
-  },
-  detailBar: {
-    color: Colors.primary,
-    fontWeight: 'bold',
-    fontSize: heightToDp(2),
-  },
-  barText: {
-    color: Colors.primary,
-    fontWeight: 'bold',
-    fontSize: heightToDp(2),
-  },
+	cardSection: {
+		height: heightToDp('20%'),
+		backgroundColor: Colors.white,
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: '0.5%',
+	},
+	barSection: {
+		height: heightToDp('4%'),
+		backgroundColor: Colors.darkPurple,
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		paddingLeft: 8,
+		alignItems: 'center',
+		paddingHorizontal: 20,
+	},
+	itemListSection: {
+		flex: 1,
+		// borderColor: Colors.redMaroon,
+		// borderWidth: 4,
+	},
+	detailBar: {
+		color: Colors.primary,
+		fontWeight: 'bold',
+		fontSize: heightToDp(2),
+	},
+	barText: {
+		color: Colors.primary,
+		fontWeight: 'bold',
+		fontSize: heightToDp(2),
+	},
 });
